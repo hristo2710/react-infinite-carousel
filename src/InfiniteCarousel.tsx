@@ -1,9 +1,13 @@
 import { useRef, useEffect, useState, useLayoutEffect } from 'react'
 import './InfiniteCarousel.css'
 
-function InfiniteCarousel({ images }) {
+type InfiniteCarouselProps = {
+  images: string[]
+}
+
+function InfiniteCarousel({ images }: InfiniteCarouselProps) {
   // References for the carousel element and persistent mutable values
-  const carouselRef = useRef(null)
+  const carouselRef = useRef<HTMLDivElement | null>(null)
   const pendingScrollAdjustment = useRef(0)
   const hasInitialized = useRef(false)
 
@@ -27,17 +31,22 @@ function InfiniteCarousel({ images }) {
     
   // Initialize the carousel scroll position on first render
   useEffect(() => {
-    const carousel = carouselRef.current
-
-    if(!carousel) return
-
-    // Convert vertical mouse wheel movement into horizontal scrolling
-    function handleWheel(event) {
+    // Attach a wheel event listener to convert vertical scrolling into horizontal scrolling
+    function handleWheel(event: WheelEvent) {
       event.preventDefault()
+
+      const carousel = carouselRef.current
+      if (!carousel) return
+
       carousel.scrollLeft += event.deltaY
     }
 
+    const carousel = carouselRef.current
+    if (!carousel) return
+
+    // Add the wheel event listener to the carousel
     carousel.addEventListener('wheel', handleWheel, {
+      // Required to allow preventDefault in the wheel event handler, the scroll must work horizontally instead of vertically
       passive: false
     })
 
@@ -53,7 +62,7 @@ function InfiniteCarousel({ images }) {
     const carousel = carouselRef.current
     if(!carousel) return
 
-    const firstImage = carousel.children[0]
+    const firstImage = carousel.children[0] as HTMLImageElement
     if(!firstImage) return
 
     // Calculate the width of one carousel item including the gap
@@ -77,8 +86,9 @@ function InfiniteCarousel({ images }) {
   // Update the rendered window as the user scrolls
   function handleScroll() {
     const carousel = carouselRef.current
-    const firstImage = carousel.children[0]
+    if (!carousel) return
 
+    const firstImage = carousel.children[0] as HTMLImageElement
     if(!firstImage) return
 
     const gap = parseFloat(getComputedStyle(carousel).gap)

@@ -1,6 +1,6 @@
-# Infinite image carousel
+# Infinite Image Carousel (React + TypeScript)
 
-A reusable infinite image carousel built with React.
+A reusable infinite image carousel built with React and TypeScript.
 
 ## Features
 
@@ -10,6 +10,7 @@ A reusable infinite image carousel built with React.
 - Virtualized rendering for large image collections
 - Small rendering window instead of rendering the entire image dataset
 - Lazy-loaded images
+- Type-safe React components
 - No navigation buttons
 
 ## Run locally

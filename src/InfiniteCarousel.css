@@ -1,0 +1,27 @@
+.carousel {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none; /* Firefox */
+    overscroll-behavior: contain;
+}
+
+.carousel::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+}
+
+.carousel-image {
+    width: clamp(220px, 30vw, 400px);
+    height: 240px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+    .carousel-image {
+        width: 80vw;
+        height: 200px;
+    }
+}
